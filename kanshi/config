@@ -1,0 +1,11 @@
+profile a5-desk {
+    # both screens identify identical...
+    output eDP-1 enable
+    output "Samsung Electric Company SMMD230 Unknown"
+    output *
+    exec ~/.config/kanshi/mst-layout.sh
+}
+
+profile laptop {
+    output eDP-1 enable position 0,0
+}

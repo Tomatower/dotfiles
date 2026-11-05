@@ -1,0 +1,145 @@
+// ~/.config/waybar/config.jsonc
+// Icons are written as \u escapes so they survive copy/paste; they need a Nerd Font (Symbols Nerd Font).
+{
+  "layer": "top",
+  "position": "top",
+  "height": 20,
+  "spacing": 0,
+  "reload_style_on_change": true,
+
+  "modules-left":   ["sway/workspaces", "sway/mode", "sway/scratchpad"],
+  "modules-center": ["sway/window"],
+  "modules-right":  [
+    "privacy",
+    "idle_inhibitor",
+    "power-profiles-daemon",
+    "cpu",
+    "memory",
+    "temperature",
+    "bluetooth",
+    "network",
+    "wireplumber",
+    "tray",
+    "clock"
+  ],
+
+  // ---------- left ----------
+  "sway/workspaces": {
+    "all-outputs": false,          // each of the three screens shows its own workspaces
+    "disable-scroll": false,
+    "format": "{name}"
+  },
+  "sway/mode": { "format": "{}" },
+  "sway/scratchpad": {
+    "format": "{icon} {count}",
+    "show-empty": false,
+    "format-icons": ["", "\uf2d2"],
+    "tooltip-format": "{app}: {title}"
+  },
+
+  // ---------- center ----------
+  "sway/window": { "max-length": 70, "format": "{title}" },
+
+  // ---------- right ----------
+  "privacy": {
+    "icon-size": 13,
+    "icon-spacing": 6,
+    "modules": [
+      { "type": "screenshare", "tooltip": true },
+      { "type": "audio-in",    "tooltip": true }
+    ]
+  },
+
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": { "activated": "\uf06e", "deactivated": "\uf070" },
+    "tooltip-format-activated": "Screen stays awake",
+    "tooltip-format-deactivated": "Screen may sleep"
+  },
+
+  "power-profiles-daemon": {
+    "format": "{icon}",
+    "tooltip-format": "Profile: {profile}\nDriver: {driver}",
+    "format-icons": {
+      "default":     "\uf0e7",
+      "performance": "\uf0e7",
+      "balanced":    "\uf24e",
+      "power-saver": "\uf06c"
+    }
+  },
+
+  "cpu": {
+    "interval": 5,
+    "format": "\uf2db {usage}%",
+    "states": { "warning": 70, "critical": 90 }
+  },
+  "memory": {
+    "interval": 10,
+    "format": "\udb80\udf5b {percentage}%",
+    "tooltip-format": "{used:0.1f} / {total:0.1f} GiB used\nSwap {swapUsed:0.1f} GiB",
+    "states": { "warning": 75, "critical": 90 }
+  },
+  "temperature": {
+    // Desktop CPUs often need a hwmon path instead of thermal zone 0, e.g.
+    // "hwmon-path-abs": "/sys/devices/platform/coretemp.0/hwmon", "input-filename": "temp1_input",
+    "critical-threshold": 80,
+    "format": "\uf2c9 {temperatureC}°C"
+  },
+
+  "bluetooth": {
+    "format": "\uf293",
+    "format-off": "\uf293",
+    "format-disabled": "\uf293",
+    "format-connected": "\uf293 {num_connections}",
+    "format-connected-battery": "\uf293 {device_battery_percentage}%",
+    "tooltip-format": "{controller_alias}  {status}",
+    "tooltip-format-connected": "{controller_alias}\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}  {device_battery_percentage}%",
+    "on-click": "blueman-manager"
+  },
+
+  "network": {
+    "interval": 5,
+    "format-wifi": "\uf1eb {essid}",
+    "format-ethernet": "\uf0e8",
+    "format-disconnected": "\uf1eb",
+    "format-alt": "\u2193 {bandwidthDownBytes}  \u2191 {bandwidthUpBytes}",
+    "tooltip-format-wifi": "{essid} ({signalStrength}%)\n{ifname}  {ipaddr}/{cidr}",
+    "tooltip-format-ethernet": "{ifname}  {ipaddr}/{cidr}",
+    "tooltip-format-disconnected": "No connection"
+  },
+
+  "wireplumber": {
+    "format": "{icon} {volume}%",
+    "format-muted": "\uf026",
+    "format-icons": ["\uf026", "\uf027", "\uf028"],
+    "scroll-step": 2,
+    "max-volume": 100,
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "on-click-right": "pavucontrol"
+  },
+
+  "tray": { "icon-size": 13, "spacing": 6 },
+
+  "clock": {
+    "format": "{:%a %d %b  %H:%M}",
+    "format-alt": "{:%H:%M:%S}",
+    "interval": 1,
+    "tooltip-format": "<tt>{calendar}</tt>",
+    "calendar": {
+      "mode": "month",
+      "weeks-pos": "left",
+      "format": {
+        "months": "<b>{}</b>",
+        "weeks":  "<span color='#8a9597'>W{}</span>",
+        "today":  "<span color='#f9a800'><b>{}</b></span>"
+      }
+    },
+    "actions": {
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down",
+      "on-click-right": "mode"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+[Unit]
+Description=Dunst Notification Daemon
+BindsTo=graphical-session.target
+
+[Service]
+Type=exec
+Environment="WAYLAND_DISPLAY=wayland-1"
+ExecStart=/usr/bin/dunst
+Restart=on-failure
+
+[Install]
+WantedBy=graphical-session.target
